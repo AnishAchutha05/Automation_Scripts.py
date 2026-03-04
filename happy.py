@@ -1,20 +1,19 @@
-def checkmap(n):
-    seen = set()
+def _sum_of_square_digits(n: int) -> int:
+    total = 0
+    while n:
+        digit = n % 10
+        total += digit * digit
+        n //= 10
+    return total
 
-    while n!=1:
 
-        if n in seen:
-            return False
-        
-        seen.add(n)
-        
-        total=0
-        while n>0:
-            digit = n%10
-            total += digit**2
-            n = n//10
-        
-        n=total
-    
-    return True
+def checkmap(n: int) -> bool:
+    slow = n
+    fast = _sum_of_square_digits(n)
+
+    while fast != 1 and slow != fast:
+        slow = _sum_of_square_digits(slow)
+        fast = _sum_of_square_digits(_sum_of_square_digits(fast))
+
+    return fast == 1
 
